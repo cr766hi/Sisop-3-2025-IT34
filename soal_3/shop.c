@@ -42,11 +42,11 @@ Player create_new_player() {
 }
 
 Weapon weapons[NUM_WEAPONS] = {
-    {"Terra Blade", 50, 10, "None", 0},
-    {"Flint & Steel", 150, 25, "None", 0},
-    {"Kitchen Knife", 200, 35, "None", 0},
-    {"Staff of Light", 120, 20, "10% Insta-Kill Chance", 1},
-    {"Dragon Claws", 300, 50, "+30% Crit Chance", 1}
+    {"Tongkat Kayu", 50, 10, "None", 0},
+    {"Pedang Emas", 150, 25, "None", 0},
+    {"Busur Cahaya", 200, 35, "None", 0},
+    {"Tongkat Keimanan", 120, 20, "10% Insta-Kill Chance", 1},
+    {"Pedang Pembunuh Naga", 300, 50, "+30% Crit Chance", 1}
 };
 
 void display_weapons() {
