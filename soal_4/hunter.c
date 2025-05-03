@@ -13,8 +13,8 @@ typedef struct {
     int attack;
     int health;
     int defense;
-    int state;    // 0 = active, 1 = banned
-    int unique_id; // Unique identifier
+    int state;    
+    int unique_id; 
 } Hunter;
 
 int main() {
@@ -29,25 +29,22 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // Mengaitkan shared memory ke pointer lokal
     shared_hunter = (Hunter *) shmat(shared_mem_id, NULL, 0);
     if (shared_hunter == (void *) -1) {
         perror("Gagal mengaitkan shared memory");
         exit(EXIT_FAILURE);
     }
 
-    // Input data hunter
     printf("Masukkan nama hunter: ");
     scanf("%49s", shared_hunter->hunter_name);
 
-    // Inisialisasi atribut hunter
     shared_hunter->lvl = 1;
     shared_hunter->experience = 0;
     shared_hunter->attack = 10;
     shared_hunter->health = 100;
     shared_hunter->defense = 5;
     shared_hunter->state = 0;
-    shared_hunter->unique_id = rand() % 100000; // Generate ID unik (bisa disesuaikan)
+    shared_hunter->unique_id = rand() % 100000; 
 
     printf("Pendaftaran berhasil! ID Hunter: %d\n", shared_hunter->unique_id);
 
