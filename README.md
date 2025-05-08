@@ -63,6 +63,23 @@ umask(0);
 - Parent process di-terminate (exit), child process melanjutkan eksekusi
 - umask(0) mengatur permission file yang dibuat server
 
+Socket RPC Set Up :
+
+```bash
+int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+address.sin_family = AF_INET;
+address.sin_addr.s_addr = INADDR_ANY;
+address.sin_port = htons(PORT);
+
+bind(server_fd, (struct sockaddr *)&address, sizeof(address));
+listen(server_fd, 3);
+```
+- AF_INET: IPv4
+- SOCK_STREAM: TCP
+- INADDR_ANY: Terima koneksi dari semua interface
+- PORT 8080: Port yang digunakan
+
+
 </div>
 ## Soal 2
 
