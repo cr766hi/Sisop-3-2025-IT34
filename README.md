@@ -514,7 +514,7 @@ int main(int argc, char *argv[]) {
 Coba program dan compile terlebih dahulu dengan `gcc dispatcher.c -o dispatcher -lpthread`
 
 Untuk mengantar order Reguler dengan memberikan perintah deliver dari dispatcher menggunakan `./dispatcher -delivery [Nama]`
-![show delivery](assets/delivery.png)
+![show deliver](assets/deliver.png)
 
 Setelah sukses mengantar, kita lihat log di delivery.log
 ![show log_reguler](assets/log_reguler.png)
