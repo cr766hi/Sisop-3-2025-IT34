@@ -260,10 +260,10 @@ int main() {
 Coba program dan compile terlebih dahulu dengan `gcc delivery_agent.c -o delivery_agent.c -lpthread`
 
 Untuk menjalankan pengiriman bertipe express menggunakan `./delivery_agent`
-
+![show delivery_agent](assets/delivery_agent.png)
 
 Setelah sukses mengantar, kita lihat log di delivery.log
-
+![show log_express](assets/log_express.png)
 
 ### c.
 
@@ -514,17 +514,18 @@ int main(int argc, char *argv[]) {
 Coba program dan compile terlebih dahulu dengan `gcc dispatcher.c -o dispatcher -lpthread`
 
 Untuk mengantar order Reguler dengan memberikan perintah deliver dari dispatcher menggunakan `./dispatcher -delivery [Nama]`
-
+![show delivery](assets/delivery.png)
 
 Setelah sukses mengantar, kita lihat log di delivery.log
-
+![show log_reguler](assets/log_reguler.png)
 
 ### d.
 
 Untuk mengecek status setiap pesanan menggunakan `./dispatcher -status [Nama]`
-
+![show status](assets/status.png)
 
 ### e.
 
 Untuk melihat semua order disertai nama dan statusnya menggunakan `./dispatcher -list`
+![show list(2)](assets/list(2).png)
 
