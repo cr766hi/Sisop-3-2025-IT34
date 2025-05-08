@@ -63,7 +63,7 @@ typedef struct {
     int count;
 } SharedData;
 ```
-Fungsi format_time:
+- Fungsi format_time:
 
 ```bash
 void format_time(char *buffer, size_t size, time_t t) {
@@ -92,7 +92,7 @@ void write_log(const char *agent, const char *type, const char *name, const char
 
 Fungsi yang mirip dengan log_delivery di dispatcher.c, tetapi menerima karakter agent sebagai argumen.
 
-Fungsi load_orders_from_csv:
+- Fungsi load_orders_from_csv:
 
 ```bash
 void load_orders_from_csv(SharedData *shared_data) {
@@ -135,7 +135,7 @@ void load_orders_from_csv(SharedData *shared_data) {
 
 Fungsi ini memuat pesanan dari CSV ke shared memory. Perhatikan bahwa akses ke shared_data dilindungi oleh mutex untuk menghindari konflik jika ada agen yang sedang membaca data pada saat yang sama.
 
-Fungsi agent_thread:
+- Fungsi agent_thread:
 
 ```bash
 void *agent_thread(void *arg) {
@@ -192,7 +192,7 @@ void *agent_thread(void *arg) {
 }
 ```
 
-Fungsi main:
+- Fungsi main:
 
 ```bash
 int main() {
@@ -305,7 +305,7 @@ typedef struct {
 } OrderList;
 ```
 
-Fungsi file_exists:
+- Fungsi file_exists:
 
 ```bash
 int file_exists(const char *filename) {
@@ -315,7 +315,7 @@ int file_exists(const char *filename) {
 
 Fungsi ini memeriksa apakah suatu file ada.
 
-Fungsi download_csv_if_needed:
+- Fungsi download_csv_if_needed:
 
 ```bash
 void download_csv_if_needed() {
@@ -333,7 +333,7 @@ void download_csv_if_needed() {
 
 Fungsi ini mengunduh file delivery_order.csv dari Google Drive jika file tersebut belum ada.
 
-Fungsi format_time:
+- Fungsi format_time:
 
 ```bash
 void format_time(char *buffer, size_t size, time_t t) {
@@ -344,7 +344,7 @@ void format_time(char *buffer, size_t size, time_t t) {
 
 Fungsi ini memformat waktu dalam format dd/mm/yyyy HH:MM:SS untuk keperluan logging.
 
-Fungsi log_delivery:
+- Fungsi log_delivery:
 
 ```bash
 void log_delivery(const char *agent, const char *type, const char *name, const char *address) {
@@ -364,7 +364,7 @@ void log_delivery(const char *agent, const char *type, const char *name, const c
 
 Fungsi ini mencatat informasi pengiriman ke dalam file delivery.log.
 
-Fungsi load_orders_from_csv:
+- Fungsi load_orders_from_csv:
 
 ```bash
 void load_orders_from_csv(OrderList *order_list) {
@@ -401,7 +401,7 @@ void load_orders_from_csv(OrderList *order_list) {
 
 Fungsi ini membaca data pesanan dari file delivery_order.csv dan menyimpannya ke dalam struktur OrderList. Setiap baris dalam CSV diasumsikan berisi nama, alamat, dan jenis pesanan, dipisahkan oleh koma. Baris pertama dianggap sebagai header dan diabaikan.
 
-Fungsi list_orders:
+- Fungsi list_orders:
 
 ```bash
 void list_orders(OrderList *order_list) {
@@ -421,7 +421,7 @@ void list_orders(OrderList *order_list) {
 
 Fungsi ini menampilkan daftar semua pesanan yang ada di shared memory.
 
-Fungsi check_status:
+- Fungsi check_status:
 
 ```bash
 void check_status(OrderList *order_list, const char *name) {
@@ -437,7 +437,7 @@ void check_status(OrderList *order_list, const char *name) {
 
 Fungsi ini mencari pesanan berdasarkan nama dan menampilkan statusnya.
 
-Fungsi deliver_order:
+- Fungsi deliver_order:
 
 ```bash
 void deliver_order(OrderList *order_list, const char *name, const char *agent) {
@@ -457,7 +457,7 @@ void deliver_order(OrderList *order_list, const char *name, const char *agent) {
 
 Fungsi ini menandai pesanan dengan nama tertentu sebagai 'Delivered' oleh agen yang ditentukan, dan mencatatnya dalam file log.
 
-Fungsi main:
+- Fungsi main:
 
 ```bash
 int main(int argc, char *argv[]) {
