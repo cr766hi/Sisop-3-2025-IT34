@@ -717,9 +717,81 @@ Untuk mengecek status setiap pesanan menggunakan `./dispatcher -status [Nama]`
 Untuk melihat semua order disertai nama dan statusnya menggunakan `./dispatcher -list`
 ![show list(2)](assets/list(2).png)
 
-## Soal 4
+## Soal 3
+
+Buat sebuah file dungeon.c, player.c, dan shop.c
+
+```bash
+nano dungeon.c
+nano player.c
+nano shop.c
+```
+
+Untuk compile file dungeon dan player menggunakan
+
+```bash
+gcc dungeon.c -o dungeon
+gcc player.c -o player
+```
+
+untuk menyertakan fungsi shop.c dalam file lain, gunakan
+
+```bash
+#include"shop.c"
+```
 
 ### a.
+
+Buat file dungeon.c untuk server multi client
+
+Output dungeon.c dijalankan:
+![Image](https://github.com/user-attachments/assets/60ae5bc2-c559-44f8-bddc-f5e55831b40f)
+
+### b.
+
+Menampilkan main menu ketika player dijalankan:
+![Image](https://github.com/user-attachments/assets/4c90ce23-f96f-41e0-a1bc-b1c87189fc70)
+
+Saat multi client akses:
+![Image](https://github.com/user-attachments/assets/0a6461f5-cb8f-4499-92a5-e8fa9bebb62a)
+
+### c.
+
+Menampilkan stat player (opsi 1):
+![Image](https://github.com/user-attachments/assets/5c51ee9a-f6d0-4c74-bd6b-d98e452a367a)
+
+### d.
+
+Menampilkan shop (opsi 2):
+![Image](https://github.com/user-attachments/assets/10c89253-d0a6-43bd-8d9a-f2c729c805f2)
+
+Menampilkan pembelian berhasil:
+![Image](https://github.com/user-attachments/assets/a7240b04-7d0d-45d5-95aa-36ec0dd1d201)
+
+### e.
+
+Menampilkan inventory:
+![Image](https://github.com/user-attachments/assets/0ed15d6d-25da-478c-96fa-87dc00fda533)
+
+Menampilkan penggunaan senjata berhasil:
+![Image](https://github.com/user-attachments/assets/d93ceb57-261b-44f9-90c0-ee84baa875de)
+
+Menampilkan status player saat senjata berhasil digunakan:
+![Image](https://github.com/user-attachments/assets/bcebc99f-038d-4180-9e3e-7f036ae2b9ae)
+
+### f dan g
+
+Belum berhasil dibuat karena bingung dengan battle logic pada poin g
+
+Menampilkan saat memilih opsi battle mode:
+![Image](https://github.com/user-attachments/assets/c1832425-53f0-47d3-9507-032f7e83ea7a)
+
+Lalu terakhir yaitu saat player keluar dari game:
+![Image](https://github.com/user-attachments/assets/de469513-f3c0-493f-af8d-a812467d9351)
+
+## Soal 4
+
+### a..
 
 Buat sebuah *file* system.c dan hunter.c
 
