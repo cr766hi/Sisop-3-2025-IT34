@@ -526,5 +526,5 @@ Untuk mengecek status setiap pesanan menggunakan `./dispatcher -status [Nama]`
 
 ### e.
 
-Untuk melihat semua order disertai nama dan statusnya menggunakan `./dispatcher -list
+Untuk melihat semua order disertai nama dan statusnya menggunakan `./dispatcher -list`
 
