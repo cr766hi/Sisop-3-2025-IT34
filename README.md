@@ -8,6 +8,20 @@ Member :
 
 # Soal Modul 3
 
+## Soal 1
+
+pertama, kita membuat struktur terlebih dahulu seperti di soal dengan cara :
+```bash
+wget --no-check-certificate "https://drive.usercontent.google.com/u/0/uc?id=15mnXpYUimVP1F5Df7qd_Ahbjor3o1cVw&export=download" -O secrets.zip
+```
+
+
+kedua, unduh file zip menggunakan perintah berikut:
+
+```bash
+wget --no-check-certificate "https://drive.usercontent.google.com/u/0/uc?id=15mnXpYUimVP1F5Df7qd_Ahbjor3o1cVw&export=download" -O secrets.zip
+```
+
 </div>
 
 ## Soal 2
