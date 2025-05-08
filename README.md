@@ -79,6 +79,123 @@ listen(server_fd, 3);
 - INADDR_ANY: Terima koneksi dari semua interface
 - PORT 8080: Port yang digunakan
 
+### c. image_client harus bisa :
+Program image_client.c harus bisa terhubung dengan image_server.c dan bisa mengirimkan perintah untuk:
+Decrypt text file yang dimasukkan dengan cara Reverse Text lalu Decode from Hex, untuk disimpan dalam folder database server dengan nama file berupa timestamp dalam bentuk angka, misalnya: database/1744401282.jpeg
+Request download dari database server sesuai filename yang dimasukkan, misalnya: 1744401282.jpeg
+Note: tidak diperbolehkan copy/pindah file, gunakan RPC untuk mengirim data.
+
+
+```bash
+int connect_to_server() {
+    int sock = 0;
+    struct sockaddr_in serv_addr;
+    
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\nSocket creation error\n");
+        return -1;
+    }
+    
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+    
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+        printf("\nInvalid address/ Address not supported\n");
+        return -1;
+    }
+    
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed\n");
+        return -1;
+    }
+    
+    return sock;
+}
+
+void send_file_to_server(int sock, const char *filename) {
+    char full_path[100];
+    snprintf(full_path, sizeof(full_path), "client/secrets/%s", filename);
+    
+    FILE *file = fopen(full_path, "r");
+    if (file == NULL) {
+        printf("Error: File not found\n");
+        return;
+    }
+    
+    char command[BUFFER_SIZE];
+    snprintf(command, sizeof(command), "DECRYPT %s", full_path);
+    send(sock, command, strlen(command), 0);
+    
+    char buffer[BUFFER_SIZE] = {0};
+    read(sock, buffer, BUFFER_SIZE);
+    printf("%s\n", buffer);
+}
+
+void download_file_from_server(int sock, const char *filename) {
+    char command[BUFFER_SIZE];
+    snprintf(command, sizeof(command), "DOWNLOAD %s", filename);
+    send(sock, command, strlen(command), 0);
+    
+    long fsize;
+    read(sock, &fsize, sizeof(fsize));
+    
+    char *buffer = malloc(fsize);
+    read(sock, buffer, fsize);
+    
+    char output_path[100];
+    snprintf(output_path, sizeof(output_path), "client/%s", filename);
+    
+    FILE *file = fopen(output_path, "wb");
+    if (file == NULL) {
+        printf("Error: Failed to create output file\n");
+        free(buffer);
+        return;
+    }
+    
+    fwrite(buffer, 1, fsize, file);
+    fclose(file);
+    free(buffer);
+    
+    printf("Success! Image saved as %s\n", filename);
+```
+
+### d. Program image_client.c harus disajikan dalam bentuk menu kreatif yang memperbolehkan pengguna untuk memasukkan perintah berkali-kali :
+
+pertama dijalankan dulu daemonnya dengan :
+```bash
+./server/image_server
+```
+
+lalu jalankan image_client dengan :
+```bash
+./server/image_client
+```
+maka :
+
+![image](https://github.com/user-attachments/assets/111e18fd-3dbb-454d-afdf-c4ebca94e9bb)
+
+### e. Program dianggap berhasil bila pengguna dapat mengirimkan text file dan menerima sebuah file jpeg yang dapat dilihat isinya. Apakah anda akan berhasil menemukan sosok sang legenda “rootkids”?
+
+ketika memilih opsi 1 dan mencoba memasukkan input_(1-5).txt 
+
+maka akan ditemukan :
+
+![image](https://github.com/user-attachments/assets/a3c74db5-e6a0-48d8-aca0-2999ed7a3012)
+
+### f. Apa yang terjadi saat error?
+
+a). tidak ada dalam pilihan maka :
+
+![image](https://github.com/user-attachments/assets/90b2c988-e17e-4eaa-98a5-80dbff249b89)
+
+b). salah input nama file dan gagal menemukan file untuk dikirim ke client:
+
+![image](https://github.com/user-attachments/assets/d26407f0-ab52-4759-892a-44623b3d2012)
+
+### g. Server menyimpan log semua percakapan antara image_server.c dan image_client.c di dalam file server.log
+
+![image](https://github.com/user-attachments/assets/79eb736c-5850-4079-ba80-02ba3aa275a8)
+
 
 </div>
 ## Soal 2
