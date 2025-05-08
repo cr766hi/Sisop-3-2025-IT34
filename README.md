@@ -7,15 +7,27 @@ Member :
 
 # Soal Modul 3
 
-
-
-## Soal 1
+### a. Membuat struktur dan mendownlaod file yang akan didecrypt
+![image](https://github.com/user-attachments/assets/090cafb4-68e3-4936-bc07-f722464e5149)
 
 pertama, kita membuat struktur terlebih dahulu seperti di soal dengan cara :
 ```bash
-wget --no-check-certificate "https://drive.usercontent.google.com/u/0/uc?id=15mnXpYUimVP1F5Df7qd_Ahbjor3o1cVw&export=download" -O secrets.zip
-```
+mkdir -p soal_1
+cd soal_1
 
+mkdir -p client/secrets
+touch client/image_client  
+
+mkdir -p server/database
+touch server/image_server  
+touch server/server.log   
+
+touch image_server.c     # File source code server
+touch image_client.c     # File source code client
+
+chmod +x client/image_client
+chmod +x server/image_server
+```
 
 kedua, unduh file zip menggunakan perintah berikut:
 
@@ -23,8 +35,23 @@ kedua, unduh file zip menggunakan perintah berikut:
 wget --no-check-certificate "https://drive.usercontent.google.com/u/0/uc?id=15mnXpYUimVP1F5Df7qd_Ahbjor3o1cVw&export=download" -O secrets.zip
 ```
 
-</div>
+selanjutnya, unzip file tersebut dengan
 
+```bash
+unzip -q secrets.zip -d client/secrets/ 
+```
+
+Tampilannya akan menjadi seperti ini
+
+![image](https://github.com/user-attachments/assets/7b949538-3d44-48ed-bfdc-469177e81dca)
+
+### b. 
+
+Menjalankan Server sebagai Daemon dan Menggunakan Socket RPC
+
+
+
+</div>
 ## Soal 2
 
 ### a.
