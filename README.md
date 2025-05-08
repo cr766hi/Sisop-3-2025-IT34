@@ -45,9 +45,8 @@ Tampilannya akan menjadi seperti ini
 
 ![image](https://github.com/user-attachments/assets/7b949538-3d44-48ed-bfdc-469177e81dca)
 
-### b. 
+### b. Menjalankan Server sebagai Daemon dan Menggunakan Socket RPC
 
-Menjalankan Server sebagai Daemon dan Menggunakan Socket RPC
 
 
 
