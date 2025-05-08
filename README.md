@@ -47,8 +47,21 @@ Tampilannya akan menjadi seperti ini
 
 ### b. Menjalankan Server sebagai Daemon dan Menggunakan Socket RPC
 
+```bash
+pid_t pid = fork();
+if (pid < 0) {
+    exit(EXIT_FAILURE);
+}
+if (pid > 0) {
+    exit(EXIT_SUCCESS); 
+}
 
+umask(0); 
+```
 
+- fork() membuat proses child
+- Parent process di-terminate (exit), child process melanjutkan eksekusi
+- umask(0) mengatur permission file yang dibuat server
 
 </div>
 ## Soal 2
