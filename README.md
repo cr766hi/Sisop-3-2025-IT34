@@ -72,7 +72,7 @@ void format_time(char *buffer, size_t size, time_t t) {
 } 
 ```
 
-Fungsi write_log:
+- Fungsi write_log:
 
 ```bash
 void write_log(const char *agent, const char *type, const char *name, const char *address) {
