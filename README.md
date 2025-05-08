@@ -30,7 +30,7 @@ Buat sebuah *file* delivery_agent.c untuk agen otomatis pengantar Express
 $ delivery_agent.c 
 ```
 
-delivery_agent.c Delivery_agent.c mensimulasikan agen pengiriman yang mencari pesanan dengan jenis "Express" yang berstatus "Pending" dan kemudian mengubah statusnya menjadi "Delivered". Berikut adalah codenya
+Delivery_agent.c mensimulasikan agen pengiriman yang mencari pesanan dengan jenis "Express" yang berstatus "Pending" dan kemudian mengubah statusnya menjadi "Delivered". Berikut adalah codenya
 
 ```bash
 #include <stdio.h>
