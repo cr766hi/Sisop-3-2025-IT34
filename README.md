@@ -8,6 +8,8 @@ Member :
 
 # Soal Modul 3
 
+</div>
+
 ## Soal 1
 
 pertama, kita membuat struktur terlebih dahulu seperti di soal dengan cara :
