@@ -544,3 +544,289 @@ Untuk mengecek status setiap pesanan menggunakan `./dispatcher -status [Nama]`
 Untuk melihat semua order disertai nama dan statusnya menggunakan `./dispatcher -list`
 ![show list(2)](assets/list(2).png)
 
+## Soal 4
+
+### a.
+
+Buat sebuah *file* system.c dan hunter.c
+
+```bash
+$ system.c 
+```
+
+```bash
+$ hunter.c 
+```
+
+### b.
+
+Berikut adalah kode untuk fitur registrasi dan login
+
+```bash
+void register_hunter() {
+    char name[MAX_NAME_LENGTH];
+    printf("Masukkan nama: ");
+    scanf(" %[^\n]", name); // Perbaikan di sini
+    
+    for (int i = 0; i < MAX_HUNTERS; i++) {
+        if (!hunters[i].used) {
+            strncpy(hunters[i].name, name, MAX_NAME_LENGTH);
+            hunters[i].level = 1;
+            hunters[i].exp = 0;
+            hunters[i].atk = 10;
+            hunters[i].hp = 100;
+            hunters[i].def = 5;
+            hunters[i].banned = 0;
+            hunters[i].notify = 0;
+            hunters[i].used = 1;
+            hunters[i].key = 1000 + rand() % 9000;
+            me = &hunters[i];
+            printf("Berhasil registrasi sebagai %s. Key kamu: %d\n", name, me->key);
+            return;
+        }
+    }
+    printf("Pendaftaran gagal, kapasitas penuh.\n");
+}
+
+void login() {
+    int key;
+    printf("Masukkan key: ");
+    scanf("%d", &key);
+    
+    for (int i = 0; i < MAX_HUNTERS; i++) {
+        if (hunters[i].used && hunters[i].key == key) {
+            if (hunters[i].banned) {
+                printf("Hunter ini dibanned!\n");
+                return;
+            }
+            me = &hunters[i];
+            printf("Login berhasil sebagai %s\n", me->name);
+            return;
+        }
+    }
+    printf("Login gagal.\n");
+}
+```
+
+### c. 
+
+Berikut adalah kode untuk menampilkan informasi hunter
+
+```bash
+void print_hunters() {
+    pthread_mutex_lock(&lock);
+    printf("\n=== List Hunter Terdaftar ===\n");
+    int found = 0;
+    for (int i = 0; i < MAX_HUNTERS; i++) {
+        if (hunters[i].used) {
+            found = 1;
+            printf("Name: %s | Lv: %d | EXP: %d | ATK: %d | HP: %d | DEF: %d | %s\n",
+                hunters[i].name, hunters[i].level, hunters[i].exp, hunters[i].atk,
+                hunters[i].hp, hunters[i].def,
+                hunters[i].banned ? "[BANNED]" : "");
+        }
+    }
+    if (!found) printf("Tidak ada hunter terdaftar.\n");
+    pthread_mutex_unlock(&lock);
+}
+```
+
+### d. 
+
+Berikut adalah kode untuk generate dungeon secara random
+
+```bash
+void generate_dungeon() {
+    pthread_mutex_lock(&lock);
+    for (int i = 0; i < MAX_DUNGEONS; i++) {
+        if (!dungeons[i].used) {
+            dungeons[i].used = 1;
+            // Contoh nama dungeon acak dari daftar
+            const char *names[] = {"Demon Castle", "Bramak Mountain", "Rad Gate", "Dark Forest", "Ice Cave"};
+            strcpy(dungeons[i].name, names[rand() % 5]);
+
+            dungeons[i].min_level = (rand() % 5) + 1;
+            dungeons[i].atk_reward = 100 + rand() % 51;
+            dungeons[i].hp_reward = 50 + rand() % 51;
+            dungeons[i].def_reward = 25 + rand() % 26;
+            dungeons[i].exp_reward = 150 + rand() % 151;
+            dungeons[i].key = 10000 + rand() % 90000;
+            printf("[INFO] Dungeon baru dibuat: %s (Min Level: %d)\n", dungeons[i].name, dungeons[i].min_level);
+            break;
+        }
+    }
+    pthread_mutex_unlock(&lock);
+}
+
+void *dungeon_generator_thread(void *arg) {
+    while (1) {
+        generate_dungeon();
+        sleep(10);
+    }
+    return NULL;
+}
+```
+
+### e.
+
+Berikut adalah kode untuk fitur yang menampilkan informasi detail semua dungeon
+
+```bash
+void print_dungeons() {
+    pthread_mutex_lock(&lock);
+    printf("\n=== List Dungeon Tersedia ===\n");
+    int found = 0;
+    for (int i = 0; i < MAX_DUNGEONS; i++) {
+        if (dungeons[i].used) {
+            found = 1;
+            printf("Key: %d | Name: %s | Min Level: %d | +ATK %d | +HP %d | +DEF %d | +EXP %d\n",
+                dungeons[i].key, dungeons[i].name, dungeons[i].min_level,
+                dungeons[i].atk_reward, dungeons[i].hp_reward,
+                dungeons[i].def_reward, dungeons[i].exp_reward);
+        }
+    }
+    if (!found) printf("Tidak ada dungeon tersedia.\n");
+    pthread_mutex_unlock(&lock);
+}
+```
+
+### f. 
+
+Berikut adalah kode untuk fitur yang menampilkan semua dungeon yang tersedia sesuai dengan level hunter
+
+```bash
+void list_available_dungeons() {
+    printf("\n=== Dungeon untuk %s (Level %d) ===\n", me->name, me->level);
+    int count = 0;
+    
+    for (int i = 0; i < MAX_DUNGEONS; i++) {
+        if (dungeons[i].used && dungeons[i].min_level <= me->level) {
+            printf("%d. Key: %d | %s [Lv %d] [+%d ATK, +%d HP, +%d DEF, +%d EXP]\n",
+                ++count, dungeons[i].key, dungeons[i].name, dungeons[i].min_level,
+                dungeons[i].atk_reward, dungeons[i].hp_reward,
+                dungeons[i].def_reward, dungeons[i].exp_reward);
+        }
+    }
+    
+    if (count == 0) {
+        printf("Tidak ada dungeon yang tersedia untuk level Anda.\n");
+    }
+}
+```
+
+### g.
+
+Berikut adalah kode untuk menguasai dungeon dan mendapatkan stat rewards
+
+```bash
+void raid_dungeon() {
+    list_available_dungeons();
+    
+    int key;
+    printf("Masukkan key dungeon: ");
+    scanf("%d", &key);
+    
+    for (int i = 0; i < MAX_DUNGEONS; i++) {
+        if (dungeons[i].used && dungeons[i].key == key && dungeons[i].min_level <= me->level) {
+            me->atk += dungeons[i].atk_reward;
+            me->hp += dungeons[i].hp_reward;
+            me->def += dungeons[i].def_reward;
+            me->exp += dungeons[i].exp_reward;
+            
+            printf("\nRaid sukses! Stat baru:\n");
+            printf("ATK: %d (+%d)\n", me->atk, dungeons[i].atk_reward);
+            printf("HP: %d (+%d)\n", me->hp, dungeons[i].hp_reward);
+            printf("DEF: %d (+%d)\n", me->def, dungeons[i].def_reward);
+            printf("EXP: %d (+%d)\n", me->exp, dungeons[i].exp_reward);
+            
+            if (me->exp >= 500) {
+                me->exp = 0;
+                me->level++;
+                printf("\nLevel up! Sekarang level %d\n", me->level);
+            }
+            
+            dungeons[i].used = 0;
+            return;
+        }
+    }
+    printf("Dungeon tidak valid atau level kurang.\n");
+}
+```
+
+###  h. 
+
+### i. 
+
+Berikut adalah kode untuk fitur ban/unban hunter
+
+```bash
+void ban_unban_hunter() {
+    char name[MAX_NAME_LENGTH];
+    printf("Masukkan nama hunter untuk ban/unban: ");
+    scanf("%s", name);
+
+    pthread_mutex_lock(&lock);
+    for (int i = 0; i < MAX_HUNTERS; i++) {
+        if (hunters[i].used && strcmp(hunters[i].name, name) == 0) {
+            hunters[i].banned = !hunters[i].banned;
+            printf("Hunter %s telah %s.\n", name, hunters[i].banned ? "dibanned" : "diunban");
+            pthread_mutex_unlock(&lock);
+            return;
+        }
+    }
+    printf("Hunter tidak ditemukan.\n");
+    pthread_mutex_unlock(&lock);
+}
+```
+
+### j.
+
+Berikut adalah kode untuk fitur reset
+
+```bash
+void reset_hunter() {
+    char name[MAX_NAME_LENGTH];
+    printf("Masukkan nama hunter untuk reset: ");
+    scanf("%s", name);
+
+    pthread_mutex_lock(&lock);
+    for (int i = 0; i < MAX_HUNTERS; i++) {
+        if (hunters[i].used && strcmp(hunters[i].name, name) == 0) {
+            hunters[i].level = 1;
+            hunters[i].exp = 0;
+            hunters[i].atk = 10;
+            hunters[i].hp = 100;
+            hunters[i].def = 5;
+            hunters[i].banned = 0;
+            printf("Hunter %s telah direset ke stats awal.\n", name);
+            pthread_mutex_unlock(&lock);
+            return;
+        }
+    }
+    printf("Hunter tidak ditemukan.\n");
+    pthread_mutex_unlock(&lock);
+}
+```
+
+### k.
+
+### l. 
+
+Berikut adalah kode untuk menghapus semua shared memory saat sistem dimatikan
+
+```bash
+void cleanup(int signum) {
+    pthread_mutex_destroy(&lock);
+
+    int shmid_hunters = shmget(shm_key_hunters, 0, 0666);
+    if (shmid_hunters >= 0) {
+        shmctl(shmid_hunters, IPC_RMID, NULL);
+    }
+    int shmid_dungeons = shmget(shm_key_dungeons, 0, 0666);
+    if (shmid_dungeons >= 0) {
+        shmctl(shmid_dungeons, IPC_RMID, NULL);
+    }
+    printf("\n[INFO] Semua shared memory telah dihapus. Program keluar.\n");
+    exit(0);
+}
+```
