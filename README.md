@@ -4,8 +4,11 @@ Member :
 2. Naila Cahyarani Idelia (5027241063)
 3. Daniswara Fausta Novanto (5027241050)
 
+<div align=center>
 
 # Soal Modul 3
+
+</div>
 
 ### a. Membuat struktur dan mendownlaod file yang akan didecrypt
 ![image](https://github.com/user-attachments/assets/090cafb4-68e3-4936-bc07-f722464e5149)
